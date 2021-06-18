@@ -1,0 +1,15 @@
+{
+    "/assets/js/app.js": "/assets/js/app.js",
+    "/assets/js/charts-custom.js": "/assets/js/charts-custom.js",
+    "/assets/js/charts-home.js": "/assets/js/charts-home.js",
+    "/assets/js/dropzone.js": "/assets/js/dropzone.js",
+    "/assets/js/front.js": "/assets/js/front.js",
+    "/assets/js/grasp_mobile_progress_circle-1.0.0.min.js": "/assets/js/grasp_mobile_progress_circle-1.0.0.min.js",
+    "/assets/js/script.js": "/assets/js/script.js",
+    "/assets/css/app.css": "/assets/css/app.css",
+    "/assets/css/style.css": "/assets/css/style.css",
+    "/assets/css/grasp_mobile_progress_circle-1.0.0.min.css": "/assets/css/grasp_mobile_progress_circle-1.0.0.min.css",
+    "/assets/css/dropzone.css": "/assets/css/dropzone.css",
+    "/assets/css/custom-default.css": "/assets/css/custom-default.css",
+    "/assets/css/style.default.css": "/assets/css/style.default.css"
+}
