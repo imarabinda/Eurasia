@@ -30,9 +30,11 @@ class FileController extends Controller
                 $params = array(
                     'dir'=>$dir,
                     'old_ids'=>array(),
-                    'condition'=>array()
+                    'condition'=>array(),
+                    'original_name'=>false,
                 );
                 
+                //conditions
                 if(Arr::exists($file_list,$dir.'_condition')){
                     $params['condition'] = explode(',',$file_list[$dir.'_condition']);
                     $raw = ' `file_type` = \''.implode('\' OR `file_type` = \'',$params['condition']).'\'';
@@ -45,13 +47,19 @@ class FileController extends Controller
                     $file_list = array($file_list);
                 }
                 
-                
+                //dir
                 if(Arr::exists($file_list,$dir.'_dir')){
                     $params['dir'] = $file_list[$dir.'_dir'];
                     $file_list = Arr::except($file_list,[$dir.'_dir']);   
                 }
-
                 
+                //original name
+                if(Arr::exists($file_list,'original_name')){
+                    $params['original_name'] = $file_list['original_name'];
+                    $file_list = Arr::except($file_list,['original_name']);   
+                }
+
+                //old ids
                 if(Arr::exists($file_list,$dir.'_old')){
                     $params['old_ids'] = is_array($file_list[$dir.'_old']) ? $file_list[$dir.'_old'] : array_flip(array($file_list[$dir.'_old']));   
                     $file_list = Arr::except($file_list,[$dir.'_old']);   
@@ -73,7 +81,7 @@ class FileController extends Controller
                         $ext = pathinfo($file_name, PATHINFO_EXTENSION);
                         
                         if(array_key_exists(strtolower($ext),array_flip($params['condition']))){
-                            $file_instances [] = $this->store_file($file,$date_dir,$ext);
+                            $file_instances [] = $this->store_file($params,$file,$date_dir,$ext,$file_name);
                         }else{
                             continue;
                         }
@@ -97,9 +105,14 @@ class FileController extends Controller
         }
 
 
-        private function store_file($file,$date_dir,$ext){
+        private function store_file($params,$file,$date_dir,$ext,$file_name){
+            
+            if(!$params['original_name']){
+                $file_name =  $ext.'-'.date("Y-m-d").rand(132,9999999).uniqid().'.'.$ext;
+            }
+
             $path = Storage::putFileAs(
-                    'uploads/'.$date_dir, $file, $ext.'-'.date("Y-m-d").rand(132,9999999).uniqid().'.'.$ext
+                    'uploads/'.$date_dir, $file, $file_name
             );
 
                 $file_instance = new File(['link'=>$path,'file_type'=>strtolower($ext)]);

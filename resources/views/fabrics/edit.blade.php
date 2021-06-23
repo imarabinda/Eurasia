@@ -263,7 +263,7 @@
                if (e.key === 'Enter' || e.keyCode === 13) {
                 var roll_quantity =  $(this).val();
                
-           var value = validate_with_total_quantity(parseInt(total_quantity),roll_quantity);
+           var value = validate_with_total_quantity(parseFloat(total_quantity),roll_quantity);
                if(value > 0){
                    column_add_to_table(value);
                }
@@ -277,7 +277,7 @@
        var roll_quantity =  $(this).val().slice(0, -1);
        hideRollMessage();    
        if($(this).val().indexOf(',') > -1) {
-           var value = validate_with_total_quantity(parseInt(total_quantity),roll_quantity);
+           var value = validate_with_total_quantity(parseFloat(total_quantity),roll_quantity);
                if(value > 0){
                    column_add_to_table(value);
                }
@@ -290,9 +290,9 @@
             $('.roll-row').each(function(index){
                var element =$(this).find('input[type="number"]');
                var value = $(element).val();
-               input_total = input_total+parseInt(value);
+               input_total = input_total+parseFloat(value);
            });
-           var extra = parseInt($(this).val()) - input_total;
+           var extra = parseFloat($(this).val()) - input_total;
            update_remaining(extra);
        })
    
@@ -302,9 +302,9 @@
             $('.roll-row').each(function(index){
                var element =$(this).find('input[type="number"]');
                var value = $(element).val();
-               input_total = input_total+parseInt(value);
+               input_total = input_total+parseFloat(value);
            });
-           var extra = parseInt($(this).val()) - input_total;
+           var extra = parseFloat($(this).val()) - input_total;
            update_remaining(extra);
        })
    
@@ -314,7 +314,7 @@
            $(input).on('keyup', function (e) {
                var total_quantity = $("#total_quantity").val();
                var roll_quantity =  $(this).val();
-               var value = validate_with_total_quantity(parseInt(total_quantity),roll_quantity,roll_quantity);
+               var value = validate_with_total_quantity(parseFloat(total_quantity),roll_quantity,roll_quantity);
                if(value < 0){
                    var v = roll_quantity-Math.abs(value);
                    $(this).val(v < 0? 0:v);
@@ -325,7 +325,7 @@
             $(input).on('change', function (e) {
                var total_quantity = $("#total_quantity").val();
                var roll_quantity =  $(this).val();
-               var value = validate_with_total_quantity(parseInt(total_quantity),roll_quantity,roll_quantity);
+               var value = validate_with_total_quantity(parseFloat(total_quantity),roll_quantity,roll_quantity);
                if(value < 0){
                    var v = roll_quantity-Math.abs(value);
                    $(this).val(v < 0? 0:v);
@@ -336,13 +336,13 @@
        }
    
        function validate_with_total_quantity(total_quantity,input,extract=0){
-           var roll_quantity = parseInt(input.replace(/[^0-9]/g,''));  
+           var roll_quantity = parseFloat(input.replace(/[^0-9]/g,''));  
            var input_total = 0;
            
            $('.roll-row').each(function(index){
                var element =$(this).find('input[type="number"]');
                var value = $(element).val();
-               input_total = input_total+parseInt(value);
+               input_total = input_total+parseFloat(value);
            }); 
            
            var total_addition = input_total+roll_quantity-extract;
@@ -472,7 +472,7 @@
                 $(input).val('Roll '+(index+1));
                }    
                var input_number = $(this).find('input[type="number"]');
-               input_total= input_total+parseInt($(input_number).val())
+               input_total= input_total+parseFloat($(input_number).val())
            });
    
            var total = $("#total_quantity").val();
@@ -672,7 +672,7 @@
                    }
                    has_error = true;
                }
-               input_total = input_total + parseInt(value);
+               input_total = input_total + parseFloat(value);
            }); 
    
            if($("#total_quantity").attr('min') > total_quantity){

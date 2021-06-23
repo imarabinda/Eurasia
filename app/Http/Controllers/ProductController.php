@@ -161,16 +161,20 @@ class ProductController extends Controller
                 'condition'=>'png,jpg,jpeg'
             ),
             'emb_files'=>array(
-                'condition'=>'emb'
+                'condition'=>'emb',
+                'original_name'=>true,
             ),
             'dst_files'=>array(
-                'condition'=>'dst'
+                'condition'=>'dst',
+                'original_name'=>true,
             ),
             'barcode_files'=>array(
-                'condition'=>'btw'
+                'condition'=>'btw',
+                'original_name'=>true,
             ),
             'psd_files'=>array(
-                'condition'=>'psd'
+                'condition'=>'psd',
+                'original_name'=>true,
             ),
         );
 
@@ -187,10 +191,18 @@ class ProductController extends Controller
                     $sums[$file_param] = $request->file($file_param);
             }
             
+            //condition
             if(is_array($values) && array_key_exists('condition',$values)){
                     $sums[$file_param][$file_param.'_condition'] = $values['condition'];
             }
 
+            //original_name
+            if(is_array($values) && array_key_exists('original_name',$values)){
+                    $sums[$file_param]['original_name'] = $values['original_name'];
+            }
+
+
+            //old
             $old = $file_param.'_old';
             if($request->has($old)){
                 $sums[$file_param][$old] = $request->$old;
@@ -377,16 +389,20 @@ class ProductController extends Controller
                 'condition'=>'png,jpg,jpeg'
             ),
             'emb_files'=>array(
-                'condition'=>'emb'
+                'condition'=>'emb',
+                'original_name'=>true,
             ),
             'dst_files'=>array(
-                'condition'=>'dst'
+                'condition'=>'dst',
+                'original_name'=>true,
             ),
             'barcode_files'=>array(
-                'condition'=>'btw'
+                'condition'=>'btw',
+                'original_name'=>true,
             ),
             'psd_files'=>array(
-                'condition'=>'psd'
+                'condition'=>'psd',
+                'original_name'=>true,
             ),
         );
 
@@ -405,6 +421,13 @@ class ProductController extends Controller
             if(is_array($values) && array_key_exists('condition',$values)){
                     $sums[$file_param][$file_param.'_condition'] = $values['condition'];
             }
+
+            
+            //original_name
+            if(is_array($values) && array_key_exists('original_name',$values)){
+                    $sums[$file_param]['original_name'] = $values['original_name'];
+            }
+
 
             $old = $file_param.'_old';
             if($request->has($old)){

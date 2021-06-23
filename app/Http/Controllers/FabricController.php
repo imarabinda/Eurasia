@@ -72,8 +72,8 @@ class FabricController extends Controller
             'mill_id'=>'required',
             'mill_ref_id'=>'required',
             
-            'width'=>'required|integer|min:1',
-            'total_quantity'=>'required|integer|min:1',
+            'width'=>'required|numeric|min:1',
+            'total_quantity'=>'required|numeric|min:1',
             
             'fabric_types'=>'required|exists:fabric_types,id',
             'fabric_colors'=>'required_if:fabric_types,exists:fabric_type_colors,fabric_type_id|exists:fabric_colors,id',
@@ -84,11 +84,11 @@ class FabricController extends Controller
         
         $data = $request->except('rolls','roll_quantity','fabric_colors','fabric_types');
         
-        $data['total_quantity']=(int)$data['total_quantity'];
-        $data['width']=(int)$data['width'];
+        $data['total_quantity']=(float)$data['total_quantity'];
+        $data['width']=(float)$data['width'];
         $data['fabric_color_id']=$request->fabric_colors;
         $data['fabric_type_id']=$request->fabric_types;
-        $data['remaining_quantity']= (int)$data['total_quantity'];
+        $data['remaining_quantity']= (float)$data['total_quantity'];
         
         $fabric = Fabric::create($data);
  
@@ -178,9 +178,9 @@ class FabricController extends Controller
             'mill_id'=>'required',
             'mill_ref_id'=>'required',
 
-            'width'=>'required|integer|min:1',
+            'width'=>'required|numeric|min:1',
             
-            'total_quantity'=>'required|integer|min:1',
+            'total_quantity'=>'required|numeric|min:1',
             
             'fabric_types'=>'required|exists:fabric_type,id',
             'fabric_colors'=>'required_if:fabric_types,exists:fabric_type_colors,fabric_type_id|exists:fabric_colors,id',
@@ -189,7 +189,7 @@ class FabricController extends Controller
 
         $data = $request->except('rolls','roll_quantity','fabric_colors','fabric_types','total_quantity');
 
-        $data['width']=(int)$data['width'];
+        $data['width']=(float)$data['width'];
         
         $response = array(
             'success'=>true,

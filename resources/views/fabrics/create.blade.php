@@ -208,7 +208,7 @@
           if (e.key === 'Enter' || e.keyCode === 13) {
            var roll_quantity =  $(this).val();
           
-      var value = validate_with_total_quantity(parseInt(total_quantity),roll_quantity);
+      var value = validate_with_total_quantity(parseFloat(total_quantity),roll_quantity);
           if(value > 0){
               column_add_to_table(value);
           }
@@ -222,7 +222,7 @@
    var roll_quantity =  $(this).val().slice(0, -1);
    hideRollMessage();    
    if($(this).val().indexOf(',') > -1) {
-      var value = validate_with_total_quantity(parseInt(total_quantity),roll_quantity);
+      var value = validate_with_total_quantity(parseFloat(total_quantity),roll_quantity);
           if(value > 0){
               column_add_to_table(value);
           }
@@ -235,9 +235,9 @@
        $('.roll-row').each(function(index){
           var element =$(this).find('input[type="number"]');
           var value = $(element).val();
-          input_total = input_total+parseInt(value);
+          input_total = input_total+parseFloat(value);
       });
-      var extra = parseInt($(this).val()) - input_total;
+      var extra = parseFloat($(this).val()) - input_total;
       update_remaining(extra);
    })
    
@@ -247,9 +247,9 @@
        $('.roll-row').each(function(index){
           var element =$(this).find('input[type="number"]');
           var value = $(element).val();
-          input_total = input_total+parseInt(value);
+          input_total = input_total+parseFloat(value);
       });
-      var extra = parseInt($(this).val()) - input_total;
+      var extra = parseFloat($(this).val()) - input_total;
       update_remaining(extra);
    })
    
@@ -259,7 +259,7 @@
       $(input).on('keyup', function (e) {
           var total_quantity = $("#total_quantity").val();
           var roll_quantity =  $(this).val();
-          var value = validate_with_total_quantity(parseInt(total_quantity),roll_quantity,roll_quantity);
+          var value = validate_with_total_quantity(parseFloat(total_quantity),roll_quantity,roll_quantity);
           if(value < 0){
               var v = roll_quantity-Math.abs(value);
               $(this).val(v < 0? 0:v);
@@ -270,7 +270,7 @@
        $(input).on('change', function (e) {
           var total_quantity = $("#total_quantity").val();
           var roll_quantity =  $(this).val();
-          var value = validate_with_total_quantity(parseInt(total_quantity),roll_quantity,roll_quantity);
+          var value = validate_with_total_quantity(parseFloat(total_quantity),roll_quantity,roll_quantity);
           if(value < 0){
               var v = roll_quantity-Math.abs(value);
               $(this).val(v < 0? 0:v);
@@ -280,17 +280,22 @@
       });
    }
    
-   function validate_with_total_quantity(total_quantity,input,extract=0){
-      var roll_quantity = parseInt(input.replace(/[^0-9]/g,''));  
-      var input_total = 0;
+   function validate_with_total_quantity(total_quantity,input,extract=0.00){
+      var roll_quantity = parseFloat(input);  
+      var input_total = 0.00;
       
       $('.roll-row').each(function(index){
           var element =$(this).find('input[type="number"]');
           var value = $(element).val();
-          input_total = input_total+parseInt(value);
+          input_total = input_total+parseFloat(value);
       }); 
       
+      extract = parseFloat(extract);
+
       var total_addition = input_total+roll_quantity-extract;
+
+      console.log("Total:"+total_addition,"Input Total:"+input_total,"Roll quantity:"+roll_quantity,"Extract:"+extract);
+      
       var remaining = total_quantity-total_addition;
       update_remaining(remaining);
    
@@ -314,23 +319,23 @@
       }
       else if(total_addition > total_quantity){
           showRollMessage("Total entered quantity can't "+total_addition + " , cause exceeds Maximum quantity "+total_quantity);
-          return (total_quantity-input_total);
+          return toFixed((total_quantity-input_total));
       }
       else if(total_addition <= total_quantity){
           hideRollMessage();
-          return roll_quantity;
+          return toFixed(roll_quantity);
       }
       else if(total_addition == total_quantity){
           hideRollMessage();
-          return roll_quantity;
+          return toFixed(roll_quantity);
       }
       else if(total_addition != total_quantity){
           hideRollMessage();
-          return roll_quantity;
+          return toFixed(roll_quantity);
       }
       else if(roll_quantity > total_quantity){
           showRollMessage("Roll quantity "+roll_quantity + " , exceeds Maximum quantity "+total_quantity);
-          return (total_quantity-input_total);
+          return toFixed((total_quantity-input_total));
       }
       return false;
    }
@@ -404,7 +409,7 @@
           }
           
           var input_number = $(this).find('input[type="number"]');
-          input_total= input_total+parseInt($(input_number).val())
+          input_total= input_total+parseFloat($(input_number).val())
       });
       var total = $("#total_quantity").val();
       var remain = total-input_total;
@@ -417,7 +422,7 @@
    
    
    function update_remaining(remain){
-      var i = remain < 0 ? 0:remain;
+      var i = remain < 0 ? 0.00 : toFixed(remain);
       remaining_ = i;
       if(i != 0 && i.toString() !='NaN'){
           $("#remaining_container").show(300); 
@@ -598,7 +603,7 @@ swal({
             }
               has_error = true;
           }
-          input_total = input_total + parseInt(value);
+          input_total = input_total + parseFloat(value);
       }); 
    
       if(input_total != total_quantity){
